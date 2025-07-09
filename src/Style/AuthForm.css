@@ -1,0 +1,127 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f2f2f2;
+  transition: background-color 0.3s;
+}
+
+/* Main container */
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: linear-gradient(to right, #0f172a, #1e293b);
+}
+
+/* Animated border */
+.animated-border {
+  background: linear-gradient(270deg, #00c6ff, #0072ff, #00c6ff);
+  background-size: 600% 600%;
+  animation: borderSpin 4s ease infinite;
+  padding: 3px;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 100%;
+}
+
+/* Inner box */
+.auth-box {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.15);
+}
+
+.auth-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.auth-box label {
+  display: block;
+  margin: 12px 0 6px;
+}
+
+.auth-box input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.auth-box button {
+  width: 100%;
+  padding: 12px;
+  background-color: #2563eb;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.auth-box button:hover {
+  background-color: #1d4ed8;
+}
+
+.switch-link {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.switch-link a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.switch-link a:hover {
+  text-decoration: underline;
+}
+
+/* Animation Keyframes */
+@keyframes borderSpin {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Dark mode (optional support) */
+@media (prefers-color-scheme: dark) {
+  .auth-container {
+    background: #0f172a;
+  }
+
+  .auth-box {
+    background-color: #1e293b;
+    color: #e2e8f0;
+  }
+
+  .auth-box input {
+    background-color: #334155;
+    color: #f8fafc;
+    border: 1px solid #475569;
+  }
+
+  .auth-box button {
+    background-color: #3b82f6;
+  }
+
+  .auth-box button:hover {
+    background-color: #2563eb;
+  }
+
+  .switch-link a {
+    color: #60a5fa;
+  }
+}
