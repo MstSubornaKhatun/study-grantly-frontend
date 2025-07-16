@@ -16,7 +16,7 @@ Admin (can manage users, scholarships, and all data)
 
 🌐 Live Website
 
-🔗 Live Link: 
+🔗 Live Link: https://radiant-platypus-8588fb.netlify.app/
 📁 Client GitHub: https://github.com/Programming-Hero-Web-Course4/b11a12-client-side-MstSubornaKhatun
 📁 Server GitHub: https://github.com/Programming-Hero-Web-Course4/b11a12-server-side-MstSubornaKhatun
 
