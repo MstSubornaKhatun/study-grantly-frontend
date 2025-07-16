@@ -147,18 +147,12 @@ const Navbar = () => {
             <>
               <Link
                 to="/login"
-                     className="btn btn-sm bg-[#640d14] text-white border-none hover:bg-[#500b10]"
+                     className="btn btn-sm bg-white text-[#640d14] border border-[#640d14] hover:bg-[#f3f3f3]"
     >
 
                 Login
               </Link>
-              <Link
-                to="/register"
-                          className="btn btn-sm bg-white text-[#640d14] border border-[#640d14] hover:bg-[#f3f3f3]"
-    >
-
-                Register
-              </Link>
+     
             </>
           )}
         </div>
