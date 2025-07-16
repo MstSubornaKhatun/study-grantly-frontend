@@ -5,7 +5,7 @@ const AdminProfile = () => {
   const { user } = useAuth();
 
   return (
-    <div className="p-4">
+    <div className="p-4"> 
       <h2 className="text-2xl font-bold mb-4">👤 Admin Profile</h2>
       <div className="bg-white p-4 rounded shadow-md w-full max-w-md mx-auto">
         <img

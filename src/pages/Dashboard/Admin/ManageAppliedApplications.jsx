@@ -135,7 +135,7 @@ const ManageAppliedApplications = () => {
                         onClick={() => handleDelete(app._id)}
                       >
                         <Trash2 size={16} />
-                      </button>
+                      </button> 
                     </td>
                   </tr>
                 ))

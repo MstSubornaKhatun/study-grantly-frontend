@@ -79,7 +79,7 @@ const ManageScholarships = () => {
                   </button>
                   <button
                     aria-label="Delete"
-                    title="Delete"
+                    title="Delete" 
                     className="inline-flex items-center justify-center w-8 h-8 rounded-md bg-red-500 hover:bg-red-600 text-white transition"
                     onClick={() => handleDelete(s._id)}
                   >

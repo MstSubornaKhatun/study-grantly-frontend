@@ -294,6 +294,6 @@
 //       </form>
 //     </div>
 //   );
-// };
+// }; 
 
 // export default AddScholarship;
