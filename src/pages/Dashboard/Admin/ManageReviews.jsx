@@ -55,4 +55,4 @@ const ManageReviews = () => {
   );
 };
 
-export default ManageReviews;
+export default ManageReviews; 
