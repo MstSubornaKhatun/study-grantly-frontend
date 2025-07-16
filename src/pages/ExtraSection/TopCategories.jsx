@@ -7,7 +7,7 @@ const categories = [
     { name: "Arts & Humanities", img: "https://i.ibb.co/7d0vVg4J/Screenshot-2025-07-15-201418.png" },
 ];
 
-const TopCategories = () => {
+const TopCategories = () => { 
     return (
         <section className="py-16 bg-white">
             <div className="max-w-6xl mx-auto px-4">
