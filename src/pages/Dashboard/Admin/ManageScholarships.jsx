@@ -81,6 +81,6 @@ const ManageScholarships = () => {
       </div>
     </div>
   );
-};
+}; 
 
 export default ManageScholarships;
