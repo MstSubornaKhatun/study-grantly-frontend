@@ -6,14 +6,19 @@ const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
   const [users, setUsers] = useState([]);
 
-  useEffect(() => {
+  const fetchUsers = () => {
     axiosSecure.get('/users').then(res => setUsers(res.data));
+  };
+
+  useEffect(() => {
+    fetchUsers();
   }, [axiosSecure]);
 
   const handleRoleChange = (id, newRole) => {
     axiosSecure.patch(`/users/role/${id}, { role: newRole }`).then(res => {
       if (res.data.modifiedCount > 0) {
         Swal.fire('Updated', `User role changed to ${newRole}`, 'success');
+        fetchUsers();
       }
     });
   };
@@ -29,8 +34,8 @@ const ManageUsers = () => {
       if (result.isConfirmed) {
         axiosSecure.delete(`/users/${id}`).then(res => {
           if (res.data.deletedCount > 0) {
-            setUsers(prev => prev.filter(user => user._id !== id));
             Swal.fire('Deleted', 'User has been removed.', 'success');
+            fetchUsers();
           }
         });
       }
@@ -38,8 +43,8 @@ const ManageUsers = () => {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">👥 Manage Users</h2>
+    <div className="p-4 text-black">
+      <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
       <div className="overflow-x-auto">
         <table className="table w-full border">
           <thead className="bg-gray-100">
@@ -56,14 +61,14 @@ const ManageUsers = () => {
             {users.map((u, i) => (
               <tr key={u._id}>
                 <td>{i + 1}</td>
-                <td>{u.name}</td>
+                <td>{u.name || 'N/A'}</td>
                 <td>{u.email}</td>
                 <td>{u.role}</td>
                 <td>
                   <select
                     value={u.role}
                     onChange={(e) => handleRoleChange(u._id, e.target.value)}
-                    className="select select-bordered select-sm"
+                    className="select select-bordered select-s text-white"
                   >
                     <option value="user">user</option>
                     <option value="moderator">moderator</option>

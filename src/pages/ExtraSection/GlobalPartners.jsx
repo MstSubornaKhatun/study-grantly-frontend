@@ -19,7 +19,7 @@ const GlobalPartners = () => {
                             key={idx}
                             className="bg-white rounded-lg p-4 shadow hover:shadow-md transition"
                         >
-                            <p className="text-[#640d14] font-bold text-lg">{name}</p>
+                            <p className="text-[#640d14] font-bold text-lg cursor-pointer">{name}</p>
                         </div>
                     ))}
                 </div>

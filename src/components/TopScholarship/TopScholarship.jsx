@@ -32,7 +32,7 @@ const TopScholarship = () => {
   return (
     <div className="py-12 bg-gray-50">
       <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-3xl font-semibold text-center mb-8">Top Scholarships</h2>
+        <h2 className="text-3xl font-semibold text-center text-[#38040e] mb-8">Top Scholarships</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {sortedScholarships.map((item) => (
             <div
@@ -46,7 +46,7 @@ const TopScholarship = () => {
                   className="w-14 h-14 object-cover rounded-full"
                 />
                 <div>
-                  <h3 className="text-lg font-semibold">{item.universityName}</h3>
+                  <h3 className="text-lg font-semibold text-blue-300">{item.universityName}</h3>
                   <p className="text-sm text-gray-600">
                     {item.universityCity}, {item.universityCountry}
                   </p>

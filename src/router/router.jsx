@@ -4,35 +4,35 @@ import Home from "../pages/Home/Home/Home";
 import AuthLayout from "../layouts/AuthLayout";
 import Login from "../pages/Authentication/Login/Login";
 import Register from "../pages/Authentication/Register/Register";
-// import AddScholarship from "../pages/AddScholarship/AddScholarship";
 import DashboardLayout from "../layouts/DashboardLayout";
 import PrivateRoute from "../routes/PrivateRoute";
 import MyProfile from "../pages/Dashboard/User/MyProfile";
-import MyApplication from "../pages/Dashboard/User/MyApplication";
-import MyReviews from "../pages/Dashboard/MyReviews";
-// import ModeratorRoute from "../routes/ModeratorRoute";
 import ModeratorProfile from "../pages/Dashboard/Moderator/ModeratorProfile";
 import ManageScholarships from "../pages/Dashboard/Moderator/ManageScholarships";
 import AllReviews from "../pages/Dashboard/Moderator/AllReviews";
 import AllAppliedScholarships from "../pages/Dashboard/Moderator/AllAppliedScholarships";
 import AddScholarship from "../pages/Dashboard/Moderator/AddScholarship";
-import AdminProfile from "../pages/Dashboard/Admin/AdminProfile";
+// import AdminProfile from "../pages/Dashboard/Admin/AdminProfile";
 import ManageReviews from "../pages/Dashboard/Admin/ManageReviews";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
-import ManageApplications from "../pages/Dashboard/Admin/ManageApplications";
-// import AllScholarship from "../pages/TopScholarship/AllScholarship";
-// import ScholarshipDetails from "../pages/TopScholarship/ScholarshipDetails";
-// import ApplyScholarship from "../pages/TopScholarship/ApplyScholarship";
-// import Payment from "../Payment/Payment";
+// import ManageApplications from "../pages/Dashboard/Admin/ManageApplications";
 import AllScholarship from "../components/TopScholarship/AllScholarship";
 import ScholarshipDetails from "../components/TopScholarship/ScholarshipDetails";
 import ApplyScholarship from "../components/TopScholarship/ApplyScholarship";
 import Payment from "../components/Payment/Payment";
+import MyApplications from "../components/TopScholarship/MyApplications";
+import NotFound from "../components/NotFound/NotFound";
+import AdminRoute from "../routes/AdminRoute";
+import ModeratorRoute from "../routes/ModeratorRoute";
+import MyReviews from "../pages/Dashboard/User/MyReviews";
+import NoDataFound from "../components/NoDataFound/NoDataFound";
+import ManageAppliedApplications from "../pages/Dashboard/Admin/ManageAppliedApplications";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayout,
+    errorElement: <NotFound/>,
     children: [
       {
         index: true,
@@ -52,17 +52,18 @@ export const router = createBrowserRouter([
         path: "/apply-scholarship/:id",
         element: <ApplyScholarship />,
       },
-      // {
-      //  path:"/payment/:id", element:<PrivateRoute><Payment /></PrivateRoute>
-      // }
-      // {
-      //   path: 'add-scholarship',
-      //   Component: AddScholarship
-      // }
-      // {
-      //   path: 'add-scholarship',
-      //   Component: AddScholarship
-      // }
+      {
+        path: "/my-applications",
+        element: <MyApplications />,
+      },
+      {
+        path: "/not",
+        element: <NoDataFound/>,
+      },
+      {
+       path:"/payment/:id",
+       element:<PrivateRoute><Payment /></PrivateRoute>
+      },
     ],
   },
   {
@@ -82,70 +83,63 @@ export const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: (
-      <PrivateRoute>
-        <DashboardLayout></DashboardLayout>
-      </PrivateRoute>
+      <PrivateRoute>  <DashboardLayout></DashboardLayout></PrivateRoute>  
+     
+     
     ),
+      errorElement: <NotFound/>,
 
     children: [
       {
         path: "profile",
-        Component: MyProfile,
+        element: <MyProfile/> ,
       },
       {
-        path: "applications",
-        element: <MyApplication />,
+        path: "my-applications",
+        element:  <MyApplications />,
+      },
+      {
+        path: "my-applications",
+        element:  <MyApplications />,
       },
       {
         path: "reviews",
-        element: <MyReviews />,
+        element:  <MyReviews />,
       },
-      // ✅ Moderator Routes
+      // moderator
       {
         path: "moderator-profile",
-        element: <ModeratorProfile />,
+        element: <ModeratorRoute> <ModeratorProfile /> </ModeratorRoute>  ,
       },
       {
         path: "manage-scholarships",
-        element: <ManageScholarships />,
+        element: <ModeratorRoute> <ManageScholarships /> </ModeratorRoute> ,
       },
       {
         path: "all-reviews",
-        element: <AllReviews />,
+        element: <ModeratorRoute>  <AllReviews /> </ModeratorRoute>,
       },
       {
         path: "all-applications",
-        element: <AllAppliedScholarships />,
+        element: <ModeratorRoute> <AllAppliedScholarships /> </ModeratorRoute> ,
       },
       {
         path: "add-scholarship",
-        element: <AddScholarship />,
+        element:<ModeratorRoute><AddScholarship />  </ModeratorRoute> ,
       },
-      // admin
-      {
-        path: "admin-profile",
-        element: <AdminProfile />,
-      },
-      {
-        path: "add-scholarship",
-        element: <AddScholarship />,
-      },
-      // moderator
-      // {
-      //   path: 'manage-scholarships',
-      //   element: <ManageScholarships />
-      // },
-      {
-        path: "manage-applications",
-        element: <ManageApplications />,
-      },
+
+
       {
         path: "manage-reviews",
-        element: <ManageReviews />,
+        element: <AdminRoute> <ManageReviews /> </AdminRoute>,
+      },
+      {
+        path: "manage-applied-applications",
+        element: <AdminRoute> <ManageAppliedApplications /> </AdminRoute>,
       },
       {
         path: "manage-users",
-        element: <ManageUsers />,
+        element: <AdminRoute> <ManageUsers /></AdminRoute>,
       },
     ],
   },

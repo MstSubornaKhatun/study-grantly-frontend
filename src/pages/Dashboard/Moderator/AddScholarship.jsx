@@ -1,6 +1,9 @@
+
+
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { PlusCircle } from "lucide-react";
 
 const AddScholarship = () => {
   const axiosSecure = useAxiosSecure();
@@ -8,13 +11,13 @@ const AddScholarship = () => {
   const [formData, setFormData] = useState({
     scholarshipName: "",
     universityName: "",
-    universityImage: "",
+    universityImage: "", // will hold image URL from imgbb
     universityCountry: "",
     universityCity: "",
     universityWorldRank: "",
-    subjectCategory: "",
-    scholarshipCategory: "",
-    degree: "",
+    subjectCategory: "Agriculture",
+    scholarshipCategory: "Full fund",
+    degree: "Diploma",
     tuitionFees: "",
     applicationFees: "",
     serviceCharge: "",
@@ -23,190 +26,239 @@ const AddScholarship = () => {
     postedUserEmail: "",
   });
 
+  const [imageFile, setImageFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleImageChange = (e) => {
+    setImageFile(e.target.files[0]);
+  };
+
+  const uploadImageToImgbb = async () => {
+    if (!imageFile) return null;
+    const imageData = new FormData();
+    imageData.append("image", imageFile);
+
+    try {
+      setLoading(true);
+      const res = await fetch(
+        `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_image_upload_key
+        }`,
+        {
+          method: "POST",
+          body: imageData,
+        }
+      );
+      const data = await res.json();
+      setLoading(false);
+
+      if (data.success) {
+        return data.data.url;
+      } else {
+        Swal.fire("Error", "Image upload failed", "error");
+        return null;
+      }
+    } catch (error) {
+      setLoading(false);
+      Swal.fire("Error", "Image upload failed", "error");
+      return null;
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validate required fields
+
     if (
       !formData.scholarshipName ||
       !formData.universityName ||
       !formData.applicationFees
     ) {
-      Swal.fire("Error", "Please fill required fields", "error");
+      Swal.fire("Error", "Please fill all required fields", "error");
       return;
     }
 
-    axiosSecure
-      .post("/scholarships", formData)
-      .then((res) => {
-        if (res.data.insertedId) {
-          Swal.fire("Success", "Scholarship added successfully", "success");
-          setFormData({
-            scholarshipName: "",
-            universityName: "",
-            universityImage: "",
-            universityCountry: "",
-            universityCity: "",
-            universityWorldRank: "",
-            subjectCategory: "Agriculture",
-            scholarshipCategory: "Full fund",
-            degree: "Diploma",
-            tuitionFees: "",
-            applicationFees: "",
-            serviceCharge: "",
-            applicationDeadline: "",
-            scholarshipPostDate: "",
-            postedUserEmail: "",
-          });
-        }
-      })
-      .catch((err) => Swal.fire("Error", err.message, "error"));
+    // Upload image first
+    const uploadedImageUrl = await uploadImageToImgbb();
+
+    if (!uploadedImageUrl) return; // stop if image upload failed
+
+    // Add image url to formData
+    const finalData = { ...formData, universityImage: uploadedImageUrl };
+
+    try {
+      const res = await axiosSecure.post("/scholarships", finalData);
+      if (res.data.insertedId) {
+        Swal.fire("Success", "Scholarship added successfully", "success");
+        setFormData({
+          scholarshipName: "",
+          universityName: "",
+          universityImage: "",
+          universityCountry: "",
+          universityCity: "",
+          universityWorldRank: "",
+          subjectCategory: "Agriculture",
+          scholarshipCategory: "Full fund",
+          degree: "Diploma",
+          tuitionFees: "",
+          applicationFees: "",
+          serviceCharge: "",
+          applicationDeadline: "",
+          scholarshipPostDate: "",
+          postedUserEmail: "",
+        });
+        setImageFile(null);
+      }
+    } catch (err) {
+      Swal.fire("Error", err.message, "error");
+    }
   };
 
   return (
-    <div className="p-4 max-w-3xl mx-auto bg-[#640d14] rounded-2xl">
-      <h2 className="text-2xl font-bold mb-4 text-black">Add Scholarship</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="max-w-4xl mx-auto p-4 md:p-8 bg-white rounded-xl shadow-md mt-6">
+      <h2 className="text-3xl font-semibold text-center text-[#640d14] flex items-center justify-center gap-2 mb-6">
+        <PlusCircle className="w-6 h-6" /> Add Scholarship
+      </h2>
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 md:grid-cols-2 gap-4"
+      >
+        {/* Scholarship Info */}
         <input
-          type="text"
           name="scholarshipName"
-          placeholder="Scholarship Name"
           value={formData.scholarshipName}
           onChange={handleChange}
-          className="input input-bordered w-full"
+          placeholder="Scholarship Name"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-black"
           required
         />
         <input
-          type="text"
           name="universityName"
-          placeholder="University Name"
           value={formData.universityName}
           onChange={handleChange}
-          className="input input-bordered w-full"
+          placeholder="University Name"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-black"
           required
         />
+
+        {/* Image file input */}
         <input
-          type="text"
-          name="universityImage"
-          placeholder="University Image URL"
-          value={formData.universityImage}
-          onChange={handleChange}
-          className="input input-bordered w-full"
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-black col-span-1 md:col-span-2"
+          required
         />
+
         <input
-          type="text"
           name="universityCountry"
-          placeholder="University Country"
           value={formData.universityCountry}
           onChange={handleChange}
-          className="input input-bordered w-full"
+          placeholder="University Country"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-black"
         />
         <input
-          type="text"
           name="universityCity"
-          placeholder="University City"
           value={formData.universityCity}
           onChange={handleChange}
-          className="input input-bordered w-full"
+          placeholder="University City"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-black"
         />
         <input
           type="number"
           name="universityWorldRank"
-          placeholder="University World Rank"
           value={formData.universityWorldRank}
           onChange={handleChange}
-          className="input input-bordered w-full"
+          placeholder="World Rank"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-black"
         />
 
+        {/* Select Fields */}
         <select
           name="subjectCategory"
           value={formData.subjectCategory}
           onChange={handleChange}
-          className="select select-bordered w-full"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-black"
         >
-          <option>Agriculture</option>
-          <option>Engineering</option>
-          <option>Doctor</option>
+          <option value="Agriculture">Agriculture</option>
+          <option value="Engineering">Engineering</option>
+          <option value="Doctor">Doctor</option>
         </select>
-
         <select
           name="scholarshipCategory"
           value={formData.scholarshipCategory}
           onChange={handleChange}
-          className="select select-bordered w-full"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-black"
         >
-          <option>Full fund</option>
-          <option>Partial</option>
-          <option>Self-fund</option>
+          <option value="Full fund">Full fund</option>
+          <option value="Partial">Partial</option>
+          <option value="Self-fund">Self-fund</option>
         </select>
-
         <select
           name="degree"
           value={formData.degree}
           onChange={handleChange}
-          className="select select-bordered w-full"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-black"
         >
-          <option>Diploma</option>
-          <option>Bachelor</option>
-          <option>Masters</option>
+          <option value="Diploma">Diploma</option>
+          <option value="Bachelor">Bachelor</option>
+          <option value="Masters">Masters</option>
         </select>
 
-        <input
-          type="number"
-          name="tuitionFees"
-          placeholder="Tuition Fees (optional)"
-          value={formData.tuitionFees}
-          onChange={handleChange}
-          className="input input-bordered w-full"
-        />
-        <input
-          type="number"
-          name="applicationFees"
-          placeholder="Application Fees"
-          value={formData.applicationFees}
-          onChange={handleChange}
-          className="input input-bordered w-full"
-          required
-        />
-        <input
-          type="number"
-          name="serviceCharge"
-          placeholder="Service Charge"
-          value={formData.serviceCharge}
-          onChange={handleChange}
-          className="input input-bordered w-full"
-        />
-        <input
-          type="date"
-          name="applicationDeadline"
-          placeholder="Application Deadline"
-          value={formData.applicationDeadline}
-          onChange={handleChange}
-          className="input input-bordered w-full"
-        />
-        <input
-          type="date"
-          name="scholarshipPostDate"
-          placeholder="Scholarship Post Date"
-          value={formData.scholarshipPostDate}
-          onChange={handleChange}
-          className="input input-bordered w-full"
-        />
+        {/* Fees and Dates */}
+        <div className="flex flex-col">
+          <label className="text-sm font-medium text-gray-700 mb-1">
+            Application Deadline <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="date"
+            name="applicationDeadline"
+            value={formData.applicationDeadline}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-black"
+            required
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <label className="text-sm font-medium text-gray-700 mb-1">
+            Scholarship Post Date{" "}
+            <span className="text-gray-400 text-xs">
+              (When you are adding it)
+            </span>
+          </label>
+          <input
+            type="date"
+            name="scholarshipPostDate"
+            value={formData.scholarshipPostDate}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-black"
+          />
+        </div>
         <input
           type="email"
           name="postedUserEmail"
-          placeholder="Posted User Email"
           value={formData.postedUserEmail}
           onChange={handleChange}
-          className="input input-bordered w-full"
+          placeholder="Your Email"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-black"
         />
 
-        <button type="submit" className="btn btn-primary w-full">
-          Add Scholarship
+        {/* Submit */}
+        <button
+          type="submit"
+          disabled={loading}
+          className={`md:col-span-2 w-full px-4 py-2 text-white font-semibold rounded-md transition ${
+            loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-[#640d14] hover:bg-[#500b10]"
+          }`}
+        >
+          {loading ? "Uploading..." : "Submit Scholarship"}
         </button>
       </form>
     </div>

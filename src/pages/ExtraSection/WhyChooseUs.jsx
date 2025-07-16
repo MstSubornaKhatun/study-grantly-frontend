@@ -20,7 +20,7 @@ const WhyChooseUs = () => {
     ];
 
     return (
-        <section className="py-20 bg-[#640d14] text-white mb-6">
+        <section className="py-20 bg-[#640d14] text-white">
             <div className="max-w-6xl mx-auto px-4 text-center">
                 <h2 className="text-4xl font-extrabold mb-6">Why Choose StudyGrantly?</h2>
                 <p className="text-white/80 mb-12">We simplify your scholarship journey</p>

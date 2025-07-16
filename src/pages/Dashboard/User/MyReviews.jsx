@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { Trash2 } from "lucide-react";
-import NoDataFound from "../../../components/NoDataFound/NoDataFound";
+import Swal from "sweetalert2";
+import { Pencil, Trash2 } from "lucide-react";
 import Loading from "../../../components/Loading";
+import NoDataFound from "../../../components/NoDataFound/NoDataFound";
 
-const AllReviews = () => {
+const MyReviews = () => {
   const axiosSecure = useAxiosSecure();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axiosSecure
-      .get("/reviews")
+      .get("/user-reviews") // 🔁 Update route if needed
       .then((res) => setReviews(res.data))
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
@@ -20,7 +20,8 @@ const AllReviews = () => {
 
   const handleDelete = (id) => {
     Swal.fire({
-      title: "Delete Review?",
+      title: "Are you sure?",
+      text: "You won't be able to recover this review!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, delete it!",
@@ -28,7 +29,7 @@ const AllReviews = () => {
       if (result.isConfirmed) {
         axiosSecure.delete(`/reviews/${id}`).then((res) => {
           if (res.data.deletedCount > 0) {
-            Swal.fire("Deleted!", "Review deleted.", "success");
+            Swal.fire("Deleted!", "Your review has been deleted.", "success");
             setReviews((prev) => prev.filter((r) => r._id !== id));
           }
         });
@@ -37,14 +38,16 @@ const AllReviews = () => {
   };
 
   return (
-    <div className="p-4 max-w-full text-black">
+    <div className="p-4 max-w-full text-black min-h-screen bg-white">
       <h2 className="text-3xl font-bold mb-6 text-[#640d14] text-center">
-        All Reviews
+        My Reviews
       </h2>
 
       {loading ? (
         <Loading />
-      ) : reviews.length > 0 ? (
+      ) : reviews.length === 0 ? (
+        <NoDataFound/>
+      ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {reviews.map((r) => (
             <div
@@ -60,34 +63,39 @@ const AllReviews = () => {
                 {r.subjectCategory}
               </p>
               <p className="mb-1">
-                <strong className="font-semibold">Reviewer:</strong> {r.userName}
-              </p>
-              <p className="mb-1">
                 <strong className="font-semibold">Date:</strong> {r.reviewDate}
               </p>
               <p className="mb-1">
                 <strong className="font-semibold">Rating:</strong> {r.rating}
               </p>
               <p className="mb-3">
-                <strong className="font-semibold">Comments:</strong> {r.comment}
+                <strong className="font-semibold">Comment:</strong> {r.comment}
               </p>
-              <button
-                onClick={() => handleDelete(r._id)}
-                className="flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition"
-                aria-label="Delete Review"
-                type="button"
-              >
-                <Trash2 size={16} />
-                Delete
-              </button>
+
+              <div className="flex gap-3 mt-4 justify-end">
+                <button
+                  className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-md text-sm transition"
+                  title="Edit"
+                  onClick={() => {
+                    Swal.fire("Edit feature not implemented.");
+                  }}
+                >
+                  <Pencil size={16} /> Edit
+                </button>
+                <button
+                  className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-md text-sm transition"
+                  title="Delete"
+                  onClick={() => handleDelete(r._id)}
+                >
+                  <Trash2 size={16} /> Delete
+                </button>
+              </div>
             </div>
           ))}
         </div>
-      ) : (
-        <NoDataFound />
       )}
     </div>
   );
 };
 
-export default AllReviews;
+export default MyReviews;

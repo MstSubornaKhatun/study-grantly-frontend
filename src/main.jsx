@@ -12,13 +12,14 @@ const queryClient = new QueryClient();
 
 
 
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-     <div className='font-poppins max-w-7xl mx-auto'>
-<QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
+     <div className='font-poppins '>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
       </QueryClientProvider>
 
 

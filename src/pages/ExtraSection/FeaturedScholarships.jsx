@@ -20,9 +20,9 @@ const FeaturedScholarships = () => {
     ];
 
     return (
-        <section className="py-16 bg-[#f9f3f4] mb-6">
+        <section className="py-16 bg-[#f9f3f4]">
             <div className="max-w-6xl mx-auto px-4 text-center">
-                <h2 className="text-4xl font-extrabold text-[#38040e] mb-6">🌟 Featured Scholarships</h2>
+                <h2 className="text-4xl font-extrabold text-[#38040e] mb-6">Featured Scholarships</h2>
                 <p className="text-gray-600 mb-12">Explore top picks for your education journey</p>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

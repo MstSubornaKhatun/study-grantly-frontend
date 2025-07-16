@@ -2,118 +2,155 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { Player } from "@lottiefiles/react-lottie-player";
 import animationData from "../../../assets/lottie/login-animation.json";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { useState } from "react";
+import useAxios from "../../../hooks/useAxios";
 import useAuth from "../../../hooks/useAuth";
 
 const Register = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const { createUser } = useAuth();
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { createUser, updateUserProfile } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const from = location.state || "/";
+  const axiosInstance = useAxios();
+  const from = location.state?.from?.pathname || "/";
+  const [profilePic, setProfilePic] = useState("");
 
-  const onSubmit = (data) => {
-    console.log(data);
-    createUser(data.email, data.password)
-      .then((result) => {
-        console.log(result.user);
-        navigate(from);
-      })
-      .catch((error) => {
-        console.error(error);
+  const handleImageUpload = async (e) => {
+    const image = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", image);
+
+    const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_upload_key}`;
+
+    try {
+      const res = await axios.post(imageUploadUrl, formData);
+      setProfilePic(res.data.data.url);
+    } catch (err) {
+      Swal.fire("Image Upload Failed", err.message, "error");
+    }
+  };
+
+  const onSubmit = async (data) => {
+    try {
+      const result = await createUser(data.email, data.password);
+
+      const userInfo = {
+        name: data.name,
+        email: data.email,
+        image: profilePic,
+        role: "user",
+        created_at: new Date().toISOString(),
+        last_log_in: new Date().toISOString(),
+      };
+
+      await updateUserProfile({
+        displayName: data.name,
+        photoURL: profilePic,
       });
+
+      await axiosInstance.post("/users", userInfo);
+
+      Swal.fire("Success!", "Registration completed successfully.", "success");
+      navigate(from, { replace: true });
+    } catch (error) {
+      Swal.fire("Registration Failed", error.message, "error");
+    }
   };
 
   return (
-    <div className="min-h-screen flex flex-col-reverse lg:flex-row items-center justify-center bg-base-200 dark:bg-gray-900 px-4 gap-6 py-8 transition-all duration-300">
-      {/* ✏ Form Section */}
-      <div className="w-full max-w-md bg-base-100 dark:bg-gray-800 dark:text-white shadow-xl rounded-lg p-6">
+    <div className="min-h-screen bg-[#f5f7fa] flex flex-col-reverse lg:flex-row items-center justify-center px-4 py-10 gap-6">
+      {/* 📝 Register Form */}
+      <div className="w-full max-w-md bg-white shadow-lg rounded-xl p-8">
+        <h2 className="text-3xl font-bold text-center mb-6 text-[#1a237e]">
+          Create an Account
+        </h2>
+
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <h2 className="text-3xl font-bold text-center mb-2">Register</h2>
+          {/* Full Name */}
           <div>
-            <label className="label">
-              <span className="label-text dark:text-gray-300">Full Name</span>
+            <label className="block text-sm font-semibold text-[#1a237e] mb-1">
+              Full Name
             </label>
             <input
               type="text"
-              name="name"
-              placeholder="Your Name"
-              className="input input-bordered w-full"
-              required
+              {...register("name", { required: true })}
+              placeholder="Your name"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">Name is required</p>
+            )}
           </div>
 
+          {/* Profile Picture */}
           <div>
-            <label className="label">
-              <span className="label-text dark:text-gray-300">Photo URL</span>
+            <label className="block text-sm font-semibold text-[#1a237e] mb-1">
+              Profile Picture
             </label>
             <input
-              type="text"
-              name="photo"
-              placeholder="Link to profile picture"
-              className="input input-bordered w-full"
+              type="file"
+              onChange={handleImageUpload}
+              className="file-input file-input-bordered w-full"
             />
           </div>
 
+          {/* Email */}
           <div>
-            <label className="label">
-              <span className="label-text dark:text-gray-300">Email</span>
+            <label className="block text-sm font-semibold text-[#1a237e] mb-1">
+              Email
             </label>
             <input
               type="email"
               {...register("email", { required: true })}
-              name="email"
               placeholder="you@example.com"
-              className="input input-bordered w-full"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
-
-            {errors.email?.type === "required" && (
-              <p className="text-red-500">Email is required</p>
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">Email is required</p>
             )}
           </div>
 
+          {/* Password */}
           <div>
-            <label className="label">
-              <span className="label-text dark:text-gray-300">Password</span>
+            <label className="block text-sm font-semibold text-[#1a237e] mb-1">
+              Password
             </label>
             <input
               type="password"
               {...register("password", { required: true, minLength: 6 })}
-              name="password"
               placeholder="Create a password"
-              className="input input-bordered w-full"
-              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             {errors.password?.type === "required" && (
-              <p className="text-red-500">Password is required</p>
+              <p className="text-red-500 text-sm mt-1">Password is required</p>
             )}
             {errors.password?.type === "minLength" && (
-              <p className="text-red-500">
-                Password must be 6 characters or longer
+              <p className="text-red-500 text-sm mt-1">
+                Password must be at least 6 characters
               </p>
             )}
           </div>
 
-          <div>
-            <button className="btn btn-primary w-full">Register</button>
-          </div>
+          {/* Submit */}
+          <button
+            type="submit"
+            className="w-full bg-[#1a237e] hover:bg-[#0d1b5c] text-white py-2 rounded-lg font-semibold transition duration-300"
+          >
+            Register
+          </button>
 
-          <p className="text-sm text-center dark:text-gray-300">
+          <p className="text-sm text-center text-gray-700">
             Already have an account?{" "}
-            <Link
-              to="/login"
-              className="text-blue-600 dark:text-blue-400 hover:underline"
-            >
-              Login
+            <Link to="/login" className="text-blue-600 hover:underline font-medium">
+              Login here
             </Link>
           </p>
         </form>
       </div>
 
-      {/* Lottie Section (on top in mobile) */}
+      {/* 🌟 Lottie Animation */}
       <div className="w-full lg:w-1/2 flex justify-center items-center">
         <Player
           autoplay

@@ -9,7 +9,7 @@ const StudyLogo = () => {
                 {/* <img className='mb-2' src={logo} alt="" /> */}
                   <div className="text-3xl font-extrabold text-center">
                         Study<span className="text-[#e2a5aa]">Grantly</span>
-                    </div>
+                    </div> 
             </div>
         </Link>
     );
