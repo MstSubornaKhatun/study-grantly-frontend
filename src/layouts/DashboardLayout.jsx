@@ -2,6 +2,7 @@ import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import StudyLogo from "../pages/Shared/StudyLogo/StudyLogo";
 import {
+  BarChart2,
   BookOpen,
   ClipboardList,
   Files,
@@ -296,6 +297,20 @@ const DashboardLayout = () => {
                     <Users size={18} /> Manage Users
                   </NavLink>
                 </li>
+                <li>
+  <NavLink
+    to="/dashboard/analytics"
+    className={({ isActive }) =>
+      `px-4 py-2 rounded-lg transition duration-200 ${
+        isActive
+          ? "bg-white text-[#38040e] font-bold shadow"
+          : "hover:bg-[#640d14] hover:text-white"
+      }`
+    }
+  >
+    <BarChart2 size={18} /> Analytics Chart
+  </NavLink>
+</li>
               </>
             )}
 

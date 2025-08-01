@@ -27,6 +27,7 @@ import ModeratorRoute from "../routes/ModeratorRoute";
 import MyReviews from "../pages/Dashboard/User/MyReviews";
 import NoDataFound from "../components/NoDataFound/NoDataFound";
 import ManageAppliedApplications from "../pages/Dashboard/Admin/ManageAppliedApplications";
+import AnalyticsChart from "../pages/Dashboard/Admin/AnalyticsChart";
 
 export const router = createBrowserRouter([
   {
@@ -140,6 +141,10 @@ export const router = createBrowserRouter([
       {
         path: "manage-users",
         element: <AdminRoute> <ManageUsers /></AdminRoute>,
+      },
+      {
+        path: "analytics",
+        element: <AdminRoute> <AnalyticsChart /></AdminRoute>,
       },
     ],
   },
