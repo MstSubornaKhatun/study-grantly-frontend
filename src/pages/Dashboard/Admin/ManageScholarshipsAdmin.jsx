@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Pencil, Trash2, Eye } from "lucide-react";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import EditScholarshipModal from "./Modal/EditScholarshipModal";
-import DetailsModal from "./Modal/DetailsModal";
 import Loading from "../../../components/Loading";
 import NoDataFound from "../../../components/NoDataFound/NoDataFound";
+import DetailsModal from "../Moderator/Modal/DetailsModal";
+import EditScholarshipModal from "../Moderator/Modal/EditScholarshipModal";
 
-const ManageScholarships = () => {
+const ManageScholarshipsAdmin = () => {
   const axiosSecure = useAxiosSecure();
   const [scholarships, setScholarships] = useState([]);
   const [selectedScholarship, setSelectedScholarship] = useState(null);
@@ -204,4 +204,4 @@ const ManageScholarships = () => {
   );
 };
 
-export default ManageScholarships;
+export default ManageScholarshipsAdmin;

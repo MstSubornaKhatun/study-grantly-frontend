@@ -7,7 +7,7 @@ import Register from "../pages/Authentication/Register/Register";
 import DashboardLayout from "../layouts/DashboardLayout";
 import PrivateRoute from "../routes/PrivateRoute";
 import MyProfile from "../pages/Dashboard/User/MyProfile";
-import ModeratorProfile from "../pages/Dashboard/Moderator/ModeratorProfile";
+// import ModeratorProfile from "../pages/Dashboard/Moderator/ModeratorProfile";
 import ManageScholarships from "../pages/Dashboard/Moderator/ManageScholarships";
 import AllReviews from "../pages/Dashboard/Moderator/AllReviews";
 import AllAppliedScholarships from "../pages/Dashboard/Moderator/AllAppliedScholarships";
@@ -28,6 +28,9 @@ import MyReviews from "../pages/Dashboard/User/MyReviews";
 import NoDataFound from "../components/NoDataFound/NoDataFound";
 import ManageAppliedApplications from "../pages/Dashboard/Admin/ManageAppliedApplications";
 import AnalyticsChart from "../pages/Dashboard/Admin/AnalyticsChart";
+import AddScholarshipAdmin from "../pages/Dashboard/Admin/AddScholarshipAdmin";
+import ManageScholarshipsAdmin from "../pages/Dashboard/Admin/ManageScholarshipsAdmin";
+// import ManageScholarshipsAdmin from "../pages/Dashboard/Admin/ManageApplicationsAdmin";
 
 export const router = createBrowserRouter([
   {
@@ -108,10 +111,10 @@ export const router = createBrowserRouter([
         element:  <MyReviews />,
       },
       // moderator
-      {
-        path: "moderator-profile",
-        element: <ModeratorRoute> <ModeratorProfile /> </ModeratorRoute>  ,
-      },
+      // {
+      //   path: "moderator-profile",
+      //   element: <ModeratorRoute> <ModeratorProfile /> </ModeratorRoute>  ,
+      // },
       {
         path: "manage-scholarships",
         element: <ModeratorRoute> <ManageScholarships /> </ModeratorRoute> ,
@@ -128,6 +131,16 @@ export const router = createBrowserRouter([
         path: "add-scholarship",
         element:<ModeratorRoute><AddScholarship />  </ModeratorRoute> ,
       },
+// admin
+     {
+        path: "manage-scholarships-admin",
+        element: <AdminRoute> <ManageScholarshipsAdmin /> </AdminRoute> ,
+      },
+      {
+        path: "add-scholarship-admin",
+        element:<AdminRoute><AddScholarshipAdmin />  </AdminRoute> ,
+      },
+    
 
 
       {

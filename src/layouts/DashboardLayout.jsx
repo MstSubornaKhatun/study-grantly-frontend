@@ -38,7 +38,10 @@ const DashboardLayout = () => {
   ];
 
   const adminMenuItems = [
-    { path: "/dashboard/manage-applied-applications", icon: ClipboardList, label: "Manage Applications" },
+        { path: "/dashboard/add-scholarship-admin", icon: PlusCircle, label: "Add Scholarship" },
+    { path: "/dashboard/manage-scholarships-admin", icon: School, label: "Manage Scholarships" },
+
+    { path: "/dashboard/manage-applied-applications", icon: ClipboardList, label: "Manage Applied" },
     { path: "/dashboard/manage-reviews", icon: MessageSquare, label: "Manage Reviews" },
     { path: "/dashboard/manage-users", icon: Users, label: "Manage Users" },
     { path: "/dashboard/analytics", icon: BarChart2, label: "Analytics Chart" },

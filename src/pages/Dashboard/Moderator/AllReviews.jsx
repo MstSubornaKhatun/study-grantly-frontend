@@ -24,6 +24,8 @@ const AllReviews = () => {
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, delete it!",
+      confirmButtonColor: "#640d14",
+      cancelButtonColor: "#264653",
     }).then((result) => {
       if (result.isConfirmed) {
         axiosSecure.delete(`/reviews/${id}`).then((res) => {
@@ -37,8 +39,8 @@ const AllReviews = () => {
   };
 
   return (
-    <div className="p-4 max-w-full text-black">
-      <h2 className="text-3xl font-bold mb-6 text-[#640d14] text-center">
+    <div className="p-6 max-w-full dark:text-white text-black">
+      <h2 className="text-3xl font-bold mb-8 text-[#640d14] dark:text-[#f4a261] text-center">
         All Reviews
       </h2>
 
@@ -49,31 +51,35 @@ const AllReviews = () => {
           {reviews.map((r) => (
             <div
               key={r._id}
-              className="border border-gray-300 rounded-lg p-5 shadow-sm bg-white hover:shadow-md transition-shadow duration-300"
+              className="border border-gray-300 dark:border-[#264653] rounded-lg p-6 shadow-sm bg-white dark:bg-[#264653] hover:shadow-md transition-shadow duration-300"
             >
-              <p className="mb-1">
-                <strong className="font-semibold">University:</strong>{" "}
-                {r.universityName}
+              <p className="mb-2">
+                <strong className="font-semibold text-[#640d14] dark:text-[#f4a261]">University:</strong>{" "}
+                <span className="text-gray-700 dark:text-gray-200">{r.universityName}</span>
               </p>
-              <p className="mb-1">
-                <strong className="font-semibold">Subject:</strong>{" "}
-                {r.subjectCategory}
+              <p className="mb-2">
+                <strong className="font-semibold text-[#640d14] dark:text-[#f4a261]">Subject:</strong>{" "}
+                <span className="text-gray-700 dark:text-gray-200">{r.subjectCategory}</span>
               </p>
-              <p className="mb-1">
-                <strong className="font-semibold">Reviewer:</strong> {r.userName}
+              <p className="mb-2">
+                <strong className="font-semibold text-[#640d14] dark:text-[#f4a261]">Reviewer:</strong>{" "}
+                <span className="text-gray-700 dark:text-gray-200">{r.userName}</span>
               </p>
-              <p className="mb-1">
-                <strong className="font-semibold">Date:</strong> {r.reviewDate}
+              <p className="mb-2">
+                <strong className="font-semibold text-[#640d14] dark:text-[#f4a261]">Date:</strong>{" "}
+                <span className="text-gray-700 dark:text-gray-200">{r.reviewDate}</span>
               </p>
-              <p className="mb-1">
-                <strong className="font-semibold">Rating:</strong> {r.rating}
+              <p className="mb-2">
+                <strong className="font-semibold text-[#640d14] dark:text-[#f4a261]">Rating:</strong>{" "}
+                <span className="text-gray-700 dark:text-gray-200">{r.rating}</span>
               </p>
-              <p className="mb-3">
-                <strong className="font-semibold">Comments:</strong> {r.comment}
+              <p className="mb-4">
+                <strong className="font-semibold text-[#640d14] dark:text-[#f4a261]">Comments:</strong>{" "}
+                <span className="text-gray-700 dark:text-gray-200">{r.comment}</span>
               </p>
               <button
                 onClick={() => handleDelete(r._id)}
-                className="flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition"
+                className="flex items-center justify-center gap-2 bg-[#640d14] hover:bg-[#4a0a0f] dark:bg-[#f4a261] dark:hover:bg-[#e8956d] text-white dark:text-[#264653] px-4 py-2 rounded-lg transition-all duration-300 w-full font-medium"
                 aria-label="Delete Review"
                 type="button"
               >
