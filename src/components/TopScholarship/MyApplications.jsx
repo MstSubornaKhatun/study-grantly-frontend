@@ -93,52 +93,62 @@ const MyApplications = () => {
   if (!applications.length) return <NoDataFound />;
 
   return (
-    <div className="bg-white min-h-screen px-4 py-6">
+    <div className="bg-white dark:bg-gray-900 min-h-screen px-4 py-8 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl font-semibold text-center mb-6 flex items-center justify-center gap-2 text-[#640d14]">
-          <ClipboardList className="w-7 h-7" /> My Applications
-        </h2>
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 flex items-center justify-center gap-3 text-[#640d14] dark:text-[#f4a261] transition-colors duration-300">
+            <ClipboardList className="w-8 h-8" /> My Applications
+          </h2>
+          <p className="text-lg text-[#264653] dark:text-gray-300 max-w-2xl mx-auto transition-colors duration-300">
+            Track and manage all your scholarship applications
+          </p>
+        </div>
 
         {/* Desktop View */}
-        <div className="hidden lg:block overflow-x-auto">
-          <table className="min-w-full border border-gray-300 text-sm">
-            <thead className="bg-[#640d14] text-white">
+        <div className="hidden lg:block overflow-x-auto rounded-xl shadow-lg">
+          <table className="min-w-full bg-white dark:bg-gray-800 rounded-xl overflow-hidden transition-colors duration-300">
+            <thead className="bg-gradient-to-r from-[#640d14] to-[#4a0a10] dark:from-[#f4a261] dark:to-[#e09449] text-white dark:text-[#640d14]">
               <tr>
-                <th className=" p-3 text-left">University</th>
-                <th className=" p-3 text-left">Address</th>
-                <th className=" p-3 text-left">Feedback</th>
-                <th className=" p-3 text-left">Subject</th>
-                <th className=" p-3 text-left">Degree</th>
-                <th className=" p-3 text-right">App. Fee</th>
-                <th className=" p-3 text-right">Service</th>
-                <th className=" p-3 text-center">Status</th>
-                <th className=" p-3 text-center">Actions</th>
+                <th className="p-4 text-left font-semibold">University</th>
+                <th className="p-4 text-left font-semibold">Address</th>
+                <th className="p-4 text-left font-semibold">Feedback</th>
+                <th className="p-4 text-left font-semibold">Subject</th>
+                <th className="p-4 text-left font-semibold">Degree</th>
+                <th className="p-4 text-right font-semibold">App. Fee</th>
+                <th className="p-4 text-right font-semibold">Service</th>
+                <th className="p-4 text-center font-semibold">Status</th>
+                <th className="p-4 text-center font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {applications.map((app) => (
-                <tr key={app._id} className="hover:bg-gray-50 border-b">
-                  <td className="p-3 text-black">{app.universityName}</td>
-                  <td className="p-3 text-black">{app.address}</td>
-                  <td className="p-3 text-black">{app.feedback || "—"}</td>
-                  <td className="p-3 text-black">{app.subjectCategory}</td>
-                  <td className="p-3 text-black">{app.degree}</td>
-                  <td className="p-3 text-black text-right">
+              {applications.map((app, index) => (
+                <tr 
+                  key={app._id} 
+                  className={`hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-600 transition-all duration-200 ${
+                    index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-50/50 dark:bg-gray-750'
+                  }`}
+                >
+                  <td className="p-4 text-[#640d14] dark:text-[#f4a261] font-medium transition-colors duration-300">{app.universityName}</td>
+                  <td className="p-4 text-[#264653] dark:text-gray-300 transition-colors duration-300">{app.address}</td>
+                  <td className="p-4 text-[#264653] dark:text-gray-300 transition-colors duration-300">{app.feedback || "—"}</td>
+                  <td className="p-4 text-[#264653] dark:text-gray-300 transition-colors duration-300">{app.subjectCategory}</td>
+                  <td className="p-4 text-[#264653] dark:text-gray-300 transition-colors duration-300">{app.degree}</td>
+                  <td className="p-4 text-[#640d14] dark:text-[#f4a261] text-right font-semibold transition-colors duration-300">
                     ${app.applicationFees ?? "N/A"}
                   </td>
-                  <td className="p-3 text-right">
+                  <td className="p-4 text-[#640d14] dark:text-[#f4a261] text-right font-semibold transition-colors duration-300">
                     ${app.serviceCharge ?? "N/A"}
                   </td>
-                  <td className="p-3 text-center capitalize font-medium">
+                  <td className="p-4 text-center">
                     {app.status === "rejected" ? (
-                      <span className="text-red-600">Rejected</span>
+                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">Rejected</span>
                     ) : app.status === "cancelled" ? (
-                      <span className="text-gray-500">Cancelled</span>
+                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-400">Cancelled</span>
                     ) : (
-                      <span className="text-green-600">{app.status}</span>
+                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 capitalize">{app.status}</span>
                     )}
                   </td>
-                  <td className="p-3 text-center">
+                  <td className="p-4 text-center">
                     <div className="flex flex-wrap justify-center gap-2">
                       <ActionButtons
                         app={app}
@@ -156,44 +166,51 @@ const MyApplications = () => {
         </div>
 
         {/* Mobile/Tablet View */}
-        <div className="space-y-4 lg:hidden">
+        <div className="space-y-6 lg:hidden">
           {applications.map((app) => (
-            <div key={app._id} className="border rounded-lg p-4 shadow-sm">
-              <p className="text-lg font-semibold text-[#640d14] mb-1">
-                {app.universityName}
-              </p>
-              <p className="text-sm text-black mb-2">{app.address}</p>
-              <p className="text-black">
-                <strong>Subject:</strong> {app.subjectCategory}
-              </p>
-              <p className="text-black">
-                <strong>Degree:</strong> {app.degree}
-              </p>
-              <p className="text-black">
-                <strong>Feedback:</strong> {app.feedback || "—"}
-              </p>
-              <p className="text-black">
-                <strong>Application Fee:</strong> $
-                {app.applicationFees ?? "N/A"}
-              </p>
-              <p className="text-black">
-                <strong>Service Charge:</strong> $
-                {app.serviceCharge ?? "N/A"}
-              </p>
-              <p className="mt-2 text-black font-medium">
-                <strong>Status:</strong>{" "}
-                {app.status === "rejected" ? (
-                  <span className="text-red-600">Rejected</span>
-                ) : app.status === "cancelled" ? (
-                  <span className="text-gray-500">Cancelled</span>
-                ) : (
-                  <span className="text-green-600 capitalize">
-                    {app.status}
-                  </span>
-                )}
-              </p>
+            <div key={app._id} className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 rounded-xl p-6 shadow-lg hover:shadow-xl hover:border-[#f4a261] transition-all duration-300">
+              <div className="mb-4">
+                <h3 className="text-xl font-bold text-[#640d14] dark:text-[#f4a261] mb-2 transition-colors duration-300">
+                  {app.universityName}
+                </h3>
+                <p className="text-sm text-[#264653] dark:text-gray-300 transition-colors duration-300">{app.address}</p>
+              </div>
+              
+              <div className="space-y-3 mb-4">
+                <div className="flex justify-between">
+                  <span className="text-sm font-semibold text-[#264653] dark:text-gray-300 transition-colors duration-300">Subject:</span>
+                  <span className="text-sm text-[#640d14] dark:text-[#f4a261] font-medium transition-colors duration-300">{app.subjectCategory}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm font-semibold text-[#264653] dark:text-gray-300 transition-colors duration-300">Degree:</span>
+                  <span className="text-sm text-[#640d14] dark:text-[#f4a261] font-medium transition-colors duration-300">{app.degree}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm font-semibold text-[#264653] dark:text-gray-300 transition-colors duration-300">Feedback:</span>
+                  <span className="text-sm text-[#640d14] dark:text-[#f4a261] font-medium transition-colors duration-300">{app.feedback || "—"}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm font-semibold text-[#264653] dark:text-gray-300 transition-colors duration-300">Application Fee:</span>
+                  <span className="text-sm text-[#640d14] dark:text-[#f4a261] font-bold transition-colors duration-300">${app.applicationFees ?? "N/A"}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm font-semibold text-[#264653] dark:text-gray-300 transition-colors duration-300">Service Charge:</span>
+                  <span className="text-sm text-[#640d14] dark:text-[#f4a261] font-bold transition-colors duration-300">${app.serviceCharge ?? "N/A"}</span>
+                </div>
+              </div>
 
-              <div className="mt-3 flex flex-wrap gap-2">
+              <div className="flex justify-between items-center mb-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+                <span className="text-sm font-semibold text-[#264653] dark:text-gray-300 transition-colors duration-300">Status:</span>
+                {app.status === "rejected" ? (
+                  <span className="px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">Rejected</span>
+                ) : app.status === "cancelled" ? (
+                  <span className="px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-400">Cancelled</span>
+                ) : (
+                  <span className="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 capitalize">{app.status}</span>
+                )}
+              </div>
+
+              <div className="flex flex-wrap gap-3 pt-4 border-t border-gray-200 dark:border-gray-600">
                 <ActionButtons
                   app={app}
                   onDetails={handleDetails}
@@ -243,37 +260,37 @@ const ActionButtons = ({ app, onDetails, onEdit, onCancel, onReview }) => (
   <>
     <button
       onClick={() => onDetails(app)}
-      className="flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm font-medium"
+      className="flex items-center gap-2 px-3 py-2 bg-[#640d14] hover:bg-[#4a0a10] dark:bg-[#f4a261] dark:hover:bg-[#e09449] text-white dark:text-[#640d14] text-sm font-medium rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md"
     >
-      <Info className="w-4 h-4 cursor-pointer" /> Details
+      <Info className="w-4 h-4" /> Details
     </button>
     <button
       disabled={app.status !== "pending"}
       onClick={() => onEdit(app)}
-      className={`flex items-center gap-1 text-sm font-medium ${
+      className={`flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md ${
         app.status !== "pending"
-          ? "text-gray-400 cursor-not-allowed"
-          : "text-green-600 hover:text-green-800"
+          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+          : "bg-[#f4a261] hover:bg-[#e09449] text-[#640d14] dark:bg-[#264653] dark:hover:bg-[#1e3a3a] dark:text-[#f4a261]"
       }`}
     >
-      <Edit3 className="w-4 h-4 cursor-pointer" /> Edit
+      <Edit3 className="w-4 h-4" /> Edit
     </button>
     <button
       disabled={app.status === "cancelled"}
       onClick={() => onCancel(app._id, app.status)}
-      className={`flex items-center gap-1 text-sm font-medium ${
+      className={`flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md ${
         app.status === "cancelled"
-          ? "text-gray-400 cursor-not-allowed"
-          : "text-red-600 hover:text-red-800"
+          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+          : "bg-red-500 hover:bg-red-600 text-white"
       }`}
     >
-      <XCircle className="w-4 h-4 cursor-pointer" /> Cancel
+      <XCircle className="w-4 h-4" /> Cancel
     </button>
     <button
       onClick={() => onReview(app)}
-      className="flex items-center gap-1 text-yellow-600 hover:text-yellow-800 text-sm font-medium"
+      className="flex items-center gap-2 px-3 py-2 bg-[#f4a261] hover:bg-[#e09449] dark:bg-[#640d14] dark:hover:bg-[#4a0a10] text-[#640d14] dark:text-[#f4a261] text-sm font-medium rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md"
     >
-      <MessageSquare className="w-4 h-4 cursor-pointer" /> Review
+      <MessageSquare className="w-4 h-4" /> Review
     </button>
   </>
 );
