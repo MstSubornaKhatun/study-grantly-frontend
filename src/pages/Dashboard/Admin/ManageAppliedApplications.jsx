@@ -524,7 +524,7 @@ const ManageAppliedApplications = () => {
                 "Success",
                 `Application ${status}ed successfully`,
                 "success"
-              );
+              ); 
             } else {
               Swal.fire("Error", "Status not updated", "error");
             }
