@@ -39,7 +39,7 @@ const DetailsModal = ({ scholarship, onClose }) => {
           </p>
           <p>
             <span className="font-semibold">World Rank:</span> {scholarship.rank}
-          </p>
+          </p> 
           <p>
             <span className="font-semibold">Application Fee:</span> ${scholarship.applicationFees}
           </p>
