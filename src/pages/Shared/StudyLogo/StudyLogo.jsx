@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 const StudyLogo = () => {
-    return (
+    return ( 
         <Link to="/">
             <div className='flex items-end'>
                 {/* <img className='mb-2' src={logo} alt="" /> */}
