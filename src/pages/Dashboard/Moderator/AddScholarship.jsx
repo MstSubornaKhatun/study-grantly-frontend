@@ -4,7 +4,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { PlusCircle } from "lucide-react";
 import axios from "axios";
 
-const AddScholarship = () => {
+const AddScholarship = () => { 
   const axiosSecure = useAxiosSecure();
 
   const [formData, setFormData] = useState({
