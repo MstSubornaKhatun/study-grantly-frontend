@@ -1,7 +1,7 @@
 import React from 'react';
 import StudyLogo from '../StudyLogo/StudyLogo';
 
-const Footer = () => {
+const Footer = () => { 
     return (
         <footer className="bg-gradient-to-r from-[#640d14] to-[#4a0a10] dark:from-gray-900 dark:to-gray-800 text-white dark:text-gray-300 py-12 transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
